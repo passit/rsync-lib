@@ -140,7 +140,6 @@ class SSH extends AbstractProtocol
      */
     public function setStrictHostKeyChecking($strictHostKeyCheking)
     {
-        //dd($strictHostKeyCheking);
         if ($strictHostKeyCheking !== 'yes' && $strictHostKeyCheking !== 'no')
             throw new \InvalidArgumentException("StrictHostKeyCheking must be set to 'yes' or 'no'");
 
@@ -157,10 +156,11 @@ class SSH extends AbstractProtocol
 
     /**
      * @param $string
+     * @throws \InvalidArgumentException If you don't provide /dev/null or /real/path/to/hosts
      */
     public function setUserKnownHostFile($userKnownHostsFile)
     {
-        if (!is_string($userKnownHostsFile))
+        if (!is_dir($userKnownHostsFile) && $userKnownHostsFile !== '/dev/null')
             throw new \InvalidArgumentException("UserKnownHostsFile should be set to a directory");
 
         $this->userKnownHostsFile = "UserKnownHostsFile={$userKnownHostsFile}";

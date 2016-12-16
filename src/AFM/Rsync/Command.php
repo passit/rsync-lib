@@ -98,9 +98,9 @@ class Command
 	 * @param $name
 	 * @param bool|mixed $value
 	 */
-	public function addArgument($name, $value = true)
+	public function addArgument($name, $value = true, $useQuotations = true)
 	{
-		$this->arguments[$name][] = $value;
+		$this->arguments[$name][] = array('value'=>$value, 'useQuotations'=>$useQuotations);
 	}
 
 	/**
@@ -139,11 +139,17 @@ class Command
 			{
 				if(strlen($argument) == 1)
 				{
-					$command[] = "-" . $argument . " '". $value. "'";
+					if ($value['useQuotations'])
+						$command[] = "-" . $argument . " '". $value['value']. "'";
+					else
+						$command[] = "-" . $argument . " ". $value['value'];
 				}
 				else
 				{
-					$command[] = "--" . (is_string($value) || is_int($value) ? $argument . " '" . $value. "'" : $argument);
+					if ($value['useQuotations'])
+						$command[] = "--" . (is_string($value['value']) || is_int($value['value']) ? $argument . " '" . $value['value']. "'" : $argument);
+					else
+						$command[] = "--" . (is_string($value['value']) || is_int($value['value']) ? $argument . " " . $value['value'] : $argument);
 				}
 			}
 		}

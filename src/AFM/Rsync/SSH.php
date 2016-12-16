@@ -197,13 +197,13 @@ class SSH extends AbstractProtocol
 			$command->addArgument("p", $this->port);
 
 		if(!is_null($this->publicKey))
-			$command->addArgument("i", $this->publicKey);
+			$command->addArgument("i", $this->publicKey, false);
 
         if (!is_null($this->strictHostKeyCheking))
-            $command->addArgument("o", $this->strictHostKeyCheking);
+            $command->addArgument("o", $this->strictHostKeyCheking, false);
 
         if (!is_null($this->userKnownHostsFile))
-            $command->addArgument("o", $this->userKnownHostsFile);
+            $command->addArgument("o", $this->userKnownHostsFile, false);
 
 		if($hostConnection)
 			$command->addParameter($this->getHostConnection());
